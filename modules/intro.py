@@ -8,7 +8,9 @@ def show_intro_screen(screen, clock):
     while user_has_clicked == False:
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
-                user_has_clicked = True
+                click = pygame.mouse.get_pos()
+                if 938 > click[0] and click[0] > 262 and 640 > click[1] and click[1] > 395:
+                    user_has_clicked = True
             if event.type == pygame.QUIT:
                 pygame.quit()
     clock.tick(60)
