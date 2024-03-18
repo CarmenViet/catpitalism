@@ -13,12 +13,16 @@ inventory = {
 level_one = [0]
 level_two = [0]
 
-def settings_popup(screen, clock, settings): #####################################################################
+def settings_popup(screen, clock, settings):
     switch = True
     while switch == True:
+        back = get_image(back_file_name, (settings["width"], settings["height"]))
         screen.blit(back, (0, 0))
+        two = get_image(two_file_name, (549, 130))
         screen.blit(two, (250, 100))
+        three = get_image(three_file_name, (549, 130))
         screen.blit(three, (250, 250))
+        one = get_image(one_file_name, (549, 130))
         screen.blit(one, (250, 400))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -26,15 +30,15 @@ def settings_popup(screen, clock, settings): ###################################
             if event.type == pygame.MOUSEBUTTONDOWN:
                 click = pygame.mouse.get_pos()
                 screen_size_has_changed = False
-                if 251 < click[0] and click[0] < 800 and 100 < click[1] and click[1] < 230:
+                if settings["width"]*0.665 > click[0] and click[0] > settings["width"]*0.208 and settings["height"]*0.33 > click[1] and click[1] > settings["height"]*0.142:
                     settings["width"] = 1000
                     settings["height"] = 900
                     screen_size_has_changed = True
-                if 251 < click[0] and click[0] < 800 and 250 < click[1] and click[1] < 380:
+                if settings["width"]*0.665 > click[0] and click[0] > settings["width"]*0.208 and settings["height"]*0.54 > click[1] and click[1] > settings["height"]*0.277:
                     settings["width"] = 1700
                     settings["height"] = 600
                     screen_size_has_changed = True
-                if 251 < click[0] and click[0] < 800 and 400 < click[1] and click[1] < 530:
+                if settings["width"]*0.665 > click[0] and click[0] > settings["width"]*0.208 and settings["height"]*0.756 > click[1] and click[1] > settings["height"]*0.572:
                     settings["width"] = 1200
                     settings["height"] = 700
                     screen_size_has_changed = True
@@ -47,8 +51,9 @@ def settings_popup(screen, clock, settings): ###################################
         pygame.display.update()
         clock.tick(60)
         
-def win(screen, clock):
+def win(screen, clock, settings):
     while True:
+        win_screen = get_image(win_screen_file_name, (settings["width"], settings["height"]))
         screen.blit(win_screen, (0, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -59,7 +64,7 @@ def win(screen, clock):
 def shop(screen, clock, settings, inventory, level_two):
     entered = True
     while entered == True:
-        #instead of screen_size we use the settings dictionary and calculate the positions of each thing to blit onscreen based off those
+        shop_screen = get_image(shop_screen_file_name, (settings["width"], settings["height"]))
         screen.blit(shop_screen, (0, 0))
         money_text = my_font.render("money: " + str(inventory["money"]), False, (0, 0, 0))
         screen.blit(money_text, (settings["width"]*0.47, 0))
@@ -68,12 +73,12 @@ def shop(screen, clock, settings, inventory, level_two):
                 pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 click = pygame.mouse.get_pos()
-                if 1177 > click[0] and click[0] > 833 and 678 > click[1] and click[1] > 522:
+                if settings["width"]*.98 > click[0] and click[0] > settings["width"]*.6945 and settings["height"]*.9645 > click[1] and click[1] > settings["height"]*.748:
                     entered = False
-                if 785 > click[0] and click[0] > 544 and 678 > click[1] and click[1] > 522:
+                if settings["width"]*.654 > click[0] and click[0] > settings["width"]*.346 and settings["height"]*.9645 > click[1] and click[1] > settings["height"]*.748:
                     if inventory["money"] >= 100:
-                        win(screen, clock)
-                if 367 > click[0] and click[0] > 24 and 678 > click[1] and click[1] > 522:
+                        win(screen, clock, settings)
+                if settings["width"]*.307 > click[0] and click[0] > settings["width"]*.0205 and settings["height"]*.9645 > click[1] and click[1] > settings["height"]*.748:
                     if inventory["money"] >= 5 and inventory["max"] < 3:
                         inventory["money"] -= 5
                         if inventory["juices"] < 3:
@@ -93,8 +98,6 @@ def show_game(screen, clock, settings):
     plots = 3
     level_zero = True
     start_time = 0
-    main_image = get_image(main_file_name, (settings["width"], settings["height"]))
-    settings_image = get_image(settings_image_file_name, None)
     while game == True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -106,8 +109,8 @@ def show_game(screen, clock, settings):
                     if settings_screen == True:
                         settings_popup(screen, clock, settings)
                 
-                #entering shop ############
-                if 1014 > click[0] and click[0] > 890 and 385 > click[1] and click[1] > 250:
+                #entering shop 
+                if settings["width"]*0.845 > click[0] and click[0] > settings["width"]*0.745 and settings["height"]*0.545 > click[1] and click[1] > settings["height"]*0.365:
                     shop(screen, clock, settings, inventory, level_two)
 
                 #clicking on head 
@@ -115,6 +118,8 @@ def show_game(screen, clock, settings):
                     inventory["money"] += 1
 
         #blit main screen
+        main_image = get_image(main_file_name, (settings["width"], settings["height"]))
+        settings_image = get_image(settings_image_file_name, None)
         screen.blit(main_image, (0, 0))
         screen.blit(settings_image, (0, 0))
         screen.blit(head, (settings["width"]*0.3, settings["height"]*0.3))
@@ -131,10 +136,10 @@ def show_game(screen, clock, settings):
                 for i in range(inventory["max"]):
                     inventory["money"] += 2
                     
-    #plots and upgrades ###################
+    #plots and upgrades 
         #empty 
-        x = 100
-        y = 400
+        x = settings["width"]*0.083
+        y = settings["height"]*0.572
         empty_block_image = get_image(empty_block_file_name, (150, 250))
         if level_zero == True:
             for k in range(plots):
@@ -142,7 +147,7 @@ def show_game(screen, clock, settings):
                 x += 160
 
         #level one
-        y = 400
+        y = settings["height"]*0.572
         level_up_block_image = get_image(level_up_file_name, (150, 250))
         if level_one[0] == 1:
             x = 100
@@ -151,8 +156,8 @@ def show_game(screen, clock, settings):
                 x += 160
 
         #max
-        x = 100
-        y = settings["height"]
+        x = settings["width"]*0.083
+        y = settings["height"]*0.572
         max_block_image = get_image(max_file_name, (150, 250))
         if level_two[0] == 1:
             for k in range(inventory["max"]):
@@ -161,4 +166,3 @@ def show_game(screen, clock, settings):
 
         pygame.display.update()
         clock.tick(60)
-        #started at 258
