@@ -18,27 +18,32 @@ def settings_popup(screen, clock, settings):
     while switch == True:
         back = get_image(back_file_name, (settings["width"], settings["height"]))
         screen.blit(back, (0, 0))
-        two = get_image(two_file_name, (549, 130))
-        screen.blit(two, (250, 100))
-        three = get_image(three_file_name, (549, 130))
-        screen.blit(three, (250, 250))
-        one = get_image(one_file_name, (549, 130))
-        screen.blit(one, (250, 400))
+
+        two = get_image(two_file_name, (settings["width"]*.458, settings["height"]*.1284))
+        screen.blit(two, (settings["width"]*.2084, settings["height"]*.084))
+
+        three = get_image(three_file_name, (settings["width"]*.458, settings["height"]*.1284))
+        screen.blit(three, (settings["width"]*.2084, settings["height"]*.309))
+
+        one = get_image(one_file_name, (settings["width"]*.458, settings["height"]*.1284))
+        screen.blit(one, (settings["width"]*.2084, settings["height"]*.534))
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 click = pygame.mouse.get_pos()
+
                 screen_size_has_changed = False
-                if settings["width"]*0.665 > click[0] and click[0] > settings["width"]*0.208 and settings["height"]*0.33 > click[1] and click[1] > settings["height"]*0.142:
+                if settings["width"]*.659 > click[0] and click[0] > settings["width"]*0.208 and settings["height"]*.21 > click[1] and click[1] > settings["height"]*.08:
                     settings["width"] = 1000
                     settings["height"] = 900
                     screen_size_has_changed = True
-                if settings["width"]*0.665 > click[0] and click[0] > settings["width"]*0.208 and settings["height"]*0.54 > click[1] and click[1] > settings["height"]*0.277:
+                if settings["width"]*.659 > click[0] and click[0] > settings["width"]*0.208 and settings["height"]*.438 > click[1] and click[1] > settings["height"]*.309:
                     settings["width"] = 1700
                     settings["height"] = 600
                     screen_size_has_changed = True
-                if settings["width"]*0.665 > click[0] and click[0] > settings["width"]*0.208 and settings["height"]*0.756 > click[1] and click[1] > settings["height"]*0.572:
+                if settings["width"]*.659 > click[0] and click[0] > settings["width"]*0.208 and settings["height"]*.659 > click[1] and click[1] > settings["height"]*.532:
                     settings["width"] = 1200
                     settings["height"] = 700
                     screen_size_has_changed = True
@@ -140,29 +145,29 @@ def show_game(screen, clock, settings):
         #empty 
         x = settings["width"]*0.083
         y = settings["height"]*0.572
-        empty_block_image = get_image(empty_block_file_name, (150, 250))
+        empty_block_image = get_image(empty_block_file_name, (settings["width"]*.125, settings["height"]*.125))
         if level_zero == True:
             for k in range(plots):
                 screen.blit(empty_block_image, (x, y))
-                x += 160
+                x += settings["width"] * .1334
 
         #level one
         y = settings["height"]*0.572
-        level_up_block_image = get_image(level_up_file_name, (150, 250))
+        x = settings["width"]*0.083
+        level_up_block_image = get_image(level_up_file_name, (settings["width"]*.125, settings["height"]*.125))
         if level_one[0] == 1:
-            x = 100
             for k in range(inventory["juices"]):
                 screen.blit(level_up_block_image, (x, y))
-                x += 160
+                x += settings["width"] * .1334
 
         #max
         x = settings["width"]*0.083
         y = settings["height"]*0.572
-        max_block_image = get_image(max_file_name, (150, 250))
+        max_block_image = get_image(max_file_name, (settings["width"]*.125, settings["height"]*.125))
         if level_two[0] == 1:
             for k in range(inventory["max"]):
                 screen.blit(max_block_image, (x, y))
-                x+=160
+                x += settings["width"] * .1334
 
         pygame.display.update()
         clock.tick(60)
